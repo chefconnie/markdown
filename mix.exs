@@ -1,14 +1,12 @@
 defmodule Mix.Tasks.Compile.Hoedown do
   def run(_) do
-    if match?({:win32, _}, :os.type()) do
-      {result, _error_code} =
-        System.cmd("nmake", ["/F", "Makefile.win", "priv\\markdown.dll"], stderr_to_stdout: true)
+    shell = Mix.shell()
 
-      IO.binwrite(result)
-    else
-      {result, _error_code} = System.cmd("make", ["priv/markdown.so"], stderr_to_stdout: true)
-      IO.binwrite(result)
+    case match?({:win32, _}, :os.type()) do
+      true -> "nmake /F Makefile.win priv\\markdown.dll"
+      _ -> "make priv/markdown.so"
     end
+    |> shell.cmd(stderr_to_stdout: true)
 
     :ok
   end
