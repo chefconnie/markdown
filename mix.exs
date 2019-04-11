@@ -24,7 +24,7 @@ defmodule Markdown.Mixfile do
       app: :markdown,
       version: @version,
       elixir: ">= 0.14.3 and < 2.0.0",
-      compilers: [:hoedown, :elixir, :app],
+      compilers: [:hoedown] ++ Mix.compilers(),
       deps: deps()
     ]
   end
